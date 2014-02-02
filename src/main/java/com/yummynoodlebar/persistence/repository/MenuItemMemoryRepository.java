@@ -11,9 +11,8 @@ public class MenuItemMemoryRepository implements MenuItemRepository {
 
 	private Map<String, MenuItem> items = new HashMap<String, MenuItem>();
 
-	
 	public MenuItemMemoryRepository() {
-		
+
 	}
 
 	public MenuItemMemoryRepository(Map<String, MenuItem> items) {

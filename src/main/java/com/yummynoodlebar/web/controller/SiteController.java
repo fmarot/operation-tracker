@@ -24,31 +24,30 @@ import com.yummynoodlebar.web.domain.MenuItem;
 public class SiteController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SiteController.class);
-	
+
 	@Autowired
 	private MenuService menuService;
-	
+
 	@Autowired
 	private Basket basket;
-		
+
 	@RequestMapping(method = RequestMethod.GET)
-	
 	public String getCurrentMenu(Model model) {
 		LOG.debug("Yummy MenuItemDetails to home view");
-		model.addAttribute("menuItems",getMenuItems(menuService.requestAllMenuItems(new RequestAllMenuItemsEvent())));
+		model.addAttribute("menuItems", getMenuItems(menuService.requestAllMenuItems(new RequestAllMenuItemsEvent())));
 		return "/home";
 	}
-			
+
 	private List<MenuItem> getMenuItems(AllMenuItemsEvent requestAllMenuItems) {
 		List<MenuItem> menuDetails = new ArrayList<MenuItem>();
-		
+
 		for (MenuItemDetails menuItemDetails : requestAllMenuItems.getMenuItemDetails()) {
 			menuDetails.add(MenuItem.fromMenuDetails(menuItemDetails));
 		}
 
 		return menuDetails;
 	}
-	
+
 	@ModelAttribute("basket")
 	private Basket getBasket() {
 		return basket;

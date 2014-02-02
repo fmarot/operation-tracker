@@ -1,30 +1,30 @@
 package com.yummynoodlebar.events.menu;
 
-
 import com.yummynoodlebar.events.ReadEvent;
 
 public class MenuItemDetailsEvent extends ReadEvent {
-  private String key;
-  private MenuItemDetails menuItemDetails;
+	private String key;
+	private MenuItemDetails menuItemDetails;
 
-  private MenuItemDetailsEvent() {}
+	private MenuItemDetailsEvent() {
+	}
 
-  public MenuItemDetailsEvent(String key, MenuItemDetails menuItemDetails) {
-    this.menuItemDetails = menuItemDetails;
-  }
+	public MenuItemDetailsEvent(String key, MenuItemDetails menuItemDetails) {
+		this.menuItemDetails = menuItemDetails;
+	}
 
-  public MenuItemDetails getMenuItemDetails() {
-    return menuItemDetails;
-  }
+	public MenuItemDetails getMenuItemDetails() {
+		return menuItemDetails;
+	}
 
-  public String getKey() {
-    return key;
-  }
+	public String getKey() {
+		return key;
+	}
 
-  public static MenuItemDetailsEvent notFound(String key) {
-    MenuItemDetailsEvent ev = new MenuItemDetailsEvent();
-    ev.key = key;
-    ev.entityFound=false;
-    return ev;
-  }
+	public static MenuItemDetailsEvent notFound(String key) {
+		MenuItemDetailsEvent ev = new MenuItemDetailsEvent();
+		ev.key = key;
+		ev.entityFound = false;
+		return ev;
+	}
 }

@@ -21,33 +21,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 public class SiteIntegrationTest {
-	
+
 	private static final String STANDARD = "Yummy Noodles";
 	private static final String CHEF_SPECIAL = "Special Yummy Noodles";
 	private static final String LOW_CAL = "Low cal Yummy Noodles";
 	private static final String FORWARDED_URL = "/WEB-INF/views/home.html";
 	private static final String VIEW = "/home";
-	
-	
+
 	MockMvc mockMvc;
-	
+
 	@InjectMocks
 	SiteController controller;
-	
+
 	@Mock
 	MenuService menuService;
-	
+
 	@Mock
 	Basket basket;
-	
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-						
+
 		mockMvc = standaloneSetup(controller)
 				.setViewResolvers(viewResolver())
 				.build();
-		
+
 		when(menuService.requestAllMenuItems(any(RequestAllMenuItemsEvent.class))).thenReturn(allMenuItems());
 
 	}
@@ -58,28 +57,28 @@ public class SiteIntegrationTest {
 		viewResolver.setSuffix(".html");
 		return viewResolver;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void rootUrlPopulatesViewModel() throws Exception {
 		mockMvc.perform(get("/"))
-		.andDo(print())
-		.andExpect(model().size(2))
-		.andExpect(model().attribute("menuItems", hasSize(3)))
-		.andExpect(model().attribute("menuItems", hasItems(hasProperty("name", is(STANDARD)),
-        hasProperty("name", is(CHEF_SPECIAL)),
-        hasProperty("name", is(LOW_CAL)))))
+				.andDo(print())
+				.andExpect(model().size(2))
+				.andExpect(model().attribute("menuItems", hasSize(3)))
+				.andExpect(model().attribute("menuItems", hasItems(hasProperty("name", is(STANDARD)),
+						hasProperty("name", is(CHEF_SPECIAL)),
+						hasProperty("name", is(LOW_CAL)))))
 
-		.andExpect(model().attributeExists("basket"));
+				.andExpect(model().attributeExists("basket"));
 	}
-	
+
 	@Test
 	public void rootUrlforwardsCorrectly() throws Exception {
 		mockMvc.perform(get("/"))
-		.andDo(print())
-		.andExpect(status().isOk())
-		.andExpect(view().name(VIEW))
-		.andExpect(forwardedUrl(FORWARDED_URL));
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name(VIEW))
+				.andExpect(forwardedUrl(FORWARDED_URL));
 
 	}
 

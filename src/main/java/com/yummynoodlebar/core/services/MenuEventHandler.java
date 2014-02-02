@@ -1,28 +1,14 @@
 package com.yummynoodlebar.core.services;
 
-import com.yummynoodlebar.events.menu.*;
+import lombok.Delegate;
+
 import com.yummynoodlebar.persistence.services.MenuPersistenceService;
 
 public class MenuEventHandler implements MenuService {
+	@Delegate
+	private MenuPersistenceService menuPersistenceService;
 
-  private MenuPersistenceService menuPersistenceService;
-
-  public MenuEventHandler(MenuPersistenceService menuPersistenceService) {
-    this.menuPersistenceService = menuPersistenceService;
-  }
-
-  @Override
-  public AllMenuItemsEvent requestAllMenuItems(RequestAllMenuItemsEvent requestAllMenuItemsEvent) {
-    return menuPersistenceService.requestAllMenuItems(requestAllMenuItemsEvent);
-  }
-
-  @Override
-  public MenuItemDetailsEvent requestMenuItemDetails(RequestMenuItemDetailsEvent requestMenuItemDetailsEvent) {
-    return menuPersistenceService.requestMenuItemDetails(requestMenuItemDetailsEvent);
-  }
-
-  @Override
-  public MenuItemDetailsEvent createMenuItem(CreateMenuItemEvent createMenuItemEvent) {
-    return menuPersistenceService.createMenuItem(createMenuItemEvent);
-  }
+	public MenuEventHandler(MenuPersistenceService menuPersistenceService) {
+		this.menuPersistenceService = menuPersistenceService;
+	}
 }

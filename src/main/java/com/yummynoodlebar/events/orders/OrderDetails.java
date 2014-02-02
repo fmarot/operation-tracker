@@ -7,82 +7,81 @@ import java.util.UUID;
 
 public class OrderDetails {
 
-  private UUID key;
-  private Date dateTimeOfSubmission;
-  private Map<String, Integer> orderItems;
-  
-  private String name;
-  private String address1;
-  private String postcode;
-  
-  private String userName;
-  
+	private UUID key;
+	private Date dateTimeOfSubmission;
+	private Map<String, Integer> orderItems;
 
-  public OrderDetails() {
-    key = null;
-  }
+	private String name;
+	private String address1;
+	private String postcode;
 
-  public OrderDetails(UUID key) {
-    this.key = key;
-  }
+	private String userName;
 
-  public Date getDateTimeOfSubmission() {
-    return this.dateTimeOfSubmission;
-  }
+	public OrderDetails() {
+		key = null;
+	}
 
-  public void setDateTimeOfSubmission(Date dateTimeOfSubmission) {
-    this.dateTimeOfSubmission = dateTimeOfSubmission;
-  }
+	public OrderDetails(UUID key) {
+		this.key = key;
+	}
 
-  public Map<String, Integer> getOrderItems() {
-    return orderItems;
-  }
+	public Date getDateTimeOfSubmission() {
+		return this.dateTimeOfSubmission;
+	}
 
-  public void setOrderItems(Map<String, Integer> orderItems) {
-    if (orderItems == null) {
-      this.orderItems = Collections.emptyMap();
-    } else {
-      this.orderItems = Collections.unmodifiableMap(orderItems);
-    }
-  }
+	public void setDateTimeOfSubmission(Date dateTimeOfSubmission) {
+		this.dateTimeOfSubmission = dateTimeOfSubmission;
+	}
 
-  public UUID getKey() {
-    return key;
-  }
+	public Map<String, Integer> getOrderItems() {
+		return orderItems;
+	}
 
-  public void setKey(UUID key) {
-    this.key = key;
-  }
+	public void setOrderItems(Map<String, Integer> orderItems) {
+		if (orderItems == null) {
+			this.orderItems = Collections.emptyMap();
+		} else {
+			this.orderItems = Collections.unmodifiableMap(orderItems);
+		}
+	}
 
-public String getName() {
-	return name;
-}
+	public UUID getKey() {
+		return key;
+	}
 
-public void setName(String name) {
-	this.name = name;
-}
+	public void setKey(UUID key) {
+		this.key = key;
+	}
 
-public String getAddress1() {
-	return address1;
-}
+	public String getName() {
+		return name;
+	}
 
-public void setAddress1(String address1) {
-	this.address1 = address1;
-}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-public String getPostcode() {
-	return postcode;
-}
+	public String getAddress1() {
+		return address1;
+	}
 
-public void setPostcode(String postcode) {
-	this.postcode = postcode;
-}
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
 
-public String getUserName() {
-	return userName;
-}
+	public String getPostcode() {
+		return postcode;
+	}
 
-public void setUserName(String userName) {
-	this.userName = userName;
-}
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 }

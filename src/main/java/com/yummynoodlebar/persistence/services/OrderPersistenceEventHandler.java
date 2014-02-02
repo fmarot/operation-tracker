@@ -11,94 +11,94 @@ import java.util.List;
 
 public class OrderPersistenceEventHandler implements OrderPersistenceService {
 
-  private final OrdersRepository orderRepository;
-  private final OrderStatusRepository orderStatusRepository;
+	private final OrdersRepository orderRepository;
+	private final OrderStatusRepository orderStatusRepository;
 
-  public OrderPersistenceEventHandler(
-      final OrdersRepository orderRepository,
-      final OrderStatusRepository orderStatusRepository) {
-    this.orderRepository = orderRepository;
-    this.orderStatusRepository = orderStatusRepository;
-  }
+	public OrderPersistenceEventHandler(
+			final OrdersRepository orderRepository,
+			final OrderStatusRepository orderStatusRepository) {
+		this.orderRepository = orderRepository;
+		this.orderStatusRepository = orderStatusRepository;
+	}
 
-  @Override
-  public OrderStatusEvent setOrderStatus(SetOrderStatusEvent event) {
+	@Override
+	public OrderStatusEvent setOrderStatus(SetOrderStatusEvent event) {
 
-    OrderStatus status = OrderStatus.fromStatusDetails(event.getOrderStatus());
+		OrderStatus status = OrderStatus.fromStatusDetails(event.getOrderStatus());
 
-    status = orderStatusRepository.save(status);
+		status = orderStatusRepository.save(status);
 
-    return new OrderStatusEvent(status.getId(), status.toStatusDetails());
-  }
+		return new OrderStatusEvent(status.getId(), status.toStatusDetails());
+	}
 
-  @Override
-  public OrderCreatedEvent createOrder(CreateOrderEvent createOrderEvent) {
-    Order order = Order.fromOrderDetails(createOrderEvent.getDetails());
+	@Override
+	public OrderCreatedEvent createOrder(CreateOrderEvent createOrderEvent) {
+		Order order = Order.fromOrderDetails(createOrderEvent.getDetails());
 
-    order = orderRepository.save(order);
+		order = orderRepository.save(order);
 
-    return new OrderCreatedEvent(order.getKey(), order.toOrderDetails());
-  }
+		return new OrderCreatedEvent(order.getKey(), order.toOrderDetails());
+	}
 
-  @Override
-  public AllOrdersEvent requestAllOrders(RequestAllOrdersEvent requestAllCurrentOrdersEvent) {
-    List<OrderDetails> generatedDetails = new ArrayList<OrderDetails>();
-    for (Order order : orderRepository.findAll()) {
-      generatedDetails.add(order.toOrderDetails());
-    }
-    return new AllOrdersEvent(generatedDetails);
-  }
+	@Override
+	public AllOrdersEvent requestAllOrders(RequestAllOrdersEvent requestAllCurrentOrdersEvent) {
+		List<OrderDetails> generatedDetails = new ArrayList<OrderDetails>();
+		for (Order order : orderRepository.findAll()) {
+			generatedDetails.add(order.toOrderDetails());
+		}
+		return new AllOrdersEvent(generatedDetails);
+	}
 
-  @Override
-  public OrderDetailsEvent requestOrderDetails(RequestOrderDetailsEvent requestOrderDetailsEvent) {
+	@Override
+	public OrderDetailsEvent requestOrderDetails(RequestOrderDetailsEvent requestOrderDetailsEvent) {
 
-    Order order = orderRepository.findById(requestOrderDetailsEvent.getKey());
+		Order order = orderRepository.findById(requestOrderDetailsEvent.getKey());
 
-    if (order == null) {
-      return OrderDetailsEvent.notFound(requestOrderDetailsEvent.getKey());
-    }
+		if (order == null) {
+			return OrderDetailsEvent.notFound(requestOrderDetailsEvent.getKey());
+		}
 
-    return new OrderDetailsEvent(
-            requestOrderDetailsEvent.getKey(),
-            order.toOrderDetails());
-  }
+		return new OrderDetailsEvent(
+				requestOrderDetailsEvent.getKey(),
+				order.toOrderDetails());
+	}
 
-  @Override
-  public OrderUpdatedEvent setOrderPayment(SetOrderPaymentEvent setOrderPaymentEvent) {
-    Order order = orderRepository.findById(setOrderPaymentEvent.getKey());
+	@Override
+	public OrderUpdatedEvent setOrderPayment(SetOrderPaymentEvent setOrderPaymentEvent) {
+		Order order = orderRepository.findById(setOrderPaymentEvent.getKey());
 
-    if(order == null) {
-      return OrderUpdatedEvent.notFound(setOrderPaymentEvent.getKey());
-    }
+		if (order == null) {
+			return OrderUpdatedEvent.notFound(setOrderPaymentEvent.getKey());
+		}
 
-    //TODO, handling payment details...
+		// TODO, handling payment details...
 
-    return new OrderUpdatedEvent(order.getKey(), order.toOrderDetails());
-  }
+		return new OrderUpdatedEvent(order.getKey(), order.toOrderDetails());
+	}
 
-  @Override
-  public OrderDeletedEvent deleteOrder(DeleteOrderEvent deleteOrderEvent) {
+	@Override
+	public OrderDeletedEvent deleteOrder(DeleteOrderEvent deleteOrderEvent) {
 
-    Order order = orderRepository.findById(deleteOrderEvent.getKey());
+		Order order = orderRepository.findById(deleteOrderEvent.getKey());
 
-    if (order == null) {
-      return OrderDeletedEvent.notFound(deleteOrderEvent.getKey());
-    }
+		if (order == null) {
+			return OrderDeletedEvent.notFound(deleteOrderEvent.getKey());
+		}
 
-    orderRepository.delete(deleteOrderEvent.getKey());
+		orderRepository.delete(deleteOrderEvent.getKey());
 
-    return new OrderDeletedEvent(deleteOrderEvent.getKey(), order.toOrderDetails());
-  }
+		return new OrderDeletedEvent(deleteOrderEvent.getKey(), order.toOrderDetails());
+	}
 
-  @Override
-  public OrderStatusEvent requestOrderStatus(RequestOrderStatusEvent requestOrderDetailsEvent) {
-    
-    OrderStatus orderStatus = orderStatusRepository.findLatestById(requestOrderDetailsEvent.getKey());
+	@Override
+	public OrderStatusEvent requestOrderStatus(RequestOrderStatusEvent requestOrderDetailsEvent) {
 
-    if (orderStatus == null) {
-      return OrderStatusEvent.notFound(requestOrderDetailsEvent.getKey());
-    }
+		OrderStatus orderStatus = orderStatusRepository.findLatestById(requestOrderDetailsEvent.getKey());
 
-    return new OrderStatusEvent(requestOrderDetailsEvent.getKey(), orderStatus.toStatusDetails());
-  }
+		if (orderStatus == null) {
+			return OrderStatusEvent.notFound(requestOrderDetailsEvent.getKey());
+		}
+
+		return new OrderStatusEvent(requestOrderDetailsEvent.getKey(), orderStatus.toStatusDetails());
+	}
 }

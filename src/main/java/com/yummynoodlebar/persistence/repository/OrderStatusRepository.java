@@ -7,11 +7,11 @@ import java.util.UUID;
 
 public interface OrderStatusRepository {
 
-  OrderStatus save(OrderStatus orderStatus);
+	OrderStatus save(OrderStatus orderStatus);
 
-  void delete(UUID key);
+	void delete(UUID key);
 
-  OrderStatus findLatestById(UUID key);
+	OrderStatus findLatestById(UUID key);
 
-  List<OrderStatus> findAll();
+	List<OrderStatus> findAll();
 }

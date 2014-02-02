@@ -32,7 +32,7 @@ import com.yummynoodlebar.web.controller.fixture.WebDataFixture;
 public class OrderStatusIntegrationTest {
 
 	private static final String ORDER_VIEW = "/WEB-INF/views/order.html";
-	
+
 	private static UUID uuid;
 
 	MockMvc mockMvc;
@@ -61,29 +61,29 @@ public class OrderStatusIntegrationTest {
 
 	@Test
 	public void thatOrderViewIsForwardedTo() throws Exception {
-		
+
 		when(orderService.requestOrderDetails(any(RequestOrderDetailsEvent.class))).thenReturn(orderDetailsEvent(uuid));
 		when(orderService.requestOrderStatus(any(RequestOrderStatusEvent.class))).thenReturn(orderStatusEvent(uuid));
-		
+
 		mockMvc.perform(get("/order/" + uuid))
-		.andExpect(status().isOk())
-		.andExpect(forwardedUrl(ORDER_VIEW));
+				.andExpect(status().isOk())
+				.andExpect(forwardedUrl(ORDER_VIEW));
 	}
-	
+
 	@Test
 	public void thatOrderStatusIsPutInModel() throws Exception {
-		
+
 		when(orderService.requestOrderDetails(any(RequestOrderDetailsEvent.class))).thenReturn(orderDetailsEvent(uuid));
 		when(orderService.requestOrderStatus(any(RequestOrderStatusEvent.class))).thenReturn(orderStatusEvent(uuid));
-		
+
 		mockMvc.perform(get("/order/" + uuid))
-			.andExpect(model().attributeExists("orderStatus"))
-			.andExpect(model().attribute("orderStatus", hasProperty("name", equalTo(WebDataFixture.CUSTOMER_NAME))))
-			.andExpect(model().attribute("orderStatus", hasProperty("status", equalTo(WebDataFixture.STATUS_RECEIVED))));
-		
-		verify(orderService).requestOrderDetails(Matchers.<RequestOrderDetailsEvent>argThat(
-				org.hamcrest.Matchers.<RequestOrderDetailsEvent>hasProperty("key", equalTo(uuid))));
+				.andExpect(model().attributeExists("orderStatus"))
+				.andExpect(model().attribute("orderStatus", hasProperty("name", equalTo(WebDataFixture.CUSTOMER_NAME))))
+				.andExpect(model().attribute("orderStatus", hasProperty("status", equalTo(WebDataFixture.STATUS_RECEIVED))));
+
+		verify(orderService).requestOrderDetails(Matchers.<RequestOrderDetailsEvent> argThat(
+				org.hamcrest.Matchers.<RequestOrderDetailsEvent> hasProperty("key", equalTo(uuid))));
 		verify(orderService).requestOrderStatus(any(RequestOrderStatusEvent.class));
 	}
-		
+
 }

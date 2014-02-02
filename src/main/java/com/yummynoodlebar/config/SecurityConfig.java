@@ -11,31 +11,32 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableWebSecurity
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Override
-  protected void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication()
-        .withUser("letsnosh").password("noshing").roles("USER");
-  }
+	@Override
+	protected void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication()
+				.withUser("letsnosh").password("noshing").roles("USER");
+	}
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    //{!begin configure}
-    http.authorizeUrls()
-        .antMatchers("/order/**").hasRole("USER")
-        .antMatchers("/checkout").hasRole("USER")
-        .anyRequest().anonymous()
-        .and()
-        //This will generate a login form if none is supplied.
-        .formLogin();
-    //{!end configure}
-  }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// {!begin configure}
+		http.authorizeUrls()
+				.antMatchers("/order/**").hasRole("USER")
+				.antMatchers("/checkout").hasRole("USER")
+				.anyRequest().hasRole("USER")
+				.anyRequest().anonymous()
+				.and()
+				// This will generate a login form if none is supplied.
+				.formLogin();
+		// {!end configure}
+	}
 
-  @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-       return super.authenticationManagerBean();
-  }
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 }

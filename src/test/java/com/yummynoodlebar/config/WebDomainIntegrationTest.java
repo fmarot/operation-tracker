@@ -29,7 +29,7 @@ public class WebDomainIntegrationTest {
 	private static final String LOW_CAL = "Low cal Yummy Noodles";
 
 	private MockMvc mockMvc;
-	
+
 	@Autowired
 	WebApplicationContext webApplicationContext;
 
@@ -37,22 +37,21 @@ public class WebDomainIntegrationTest {
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getHome() throws Exception {
 		mockMvc.perform(get("/"))
-		.andDo(print())
-		.andExpect(status().isOk())
-		.andExpect(model().size(2))
-		.andExpect(model().attribute("menuItems", hasSize(3)))
-		.andExpect(model().attribute("menuItems", hasItems(hasProperty("name", is(STANDARD)),
-															hasProperty("name", is(CHEF_SPECIAL)),
-															hasProperty("name", is(LOW_CAL))) ))
-		.andExpect(model().attributeExists("basket"))
-    .andExpect(content().string(stringContainsInOrder(
-            Arrays.asList("<title>Yummy Noodle Bar</title>"))));
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(model().size(2))
+				.andExpect(model().attribute("menuItems", hasSize(3)))
+				.andExpect(model().attribute("menuItems", hasItems(hasProperty("name", is(STANDARD)),
+						hasProperty("name", is(CHEF_SPECIAL)),
+						hasProperty("name", is(LOW_CAL)))))
+				.andExpect(model().attributeExists("basket"))
+				.andExpect(content().string(stringContainsInOrder(
+						Arrays.asList("<title>Yummy Noodle Bar</title>"))));
 
 	}
 

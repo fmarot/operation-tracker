@@ -17,7 +17,7 @@ import com.yummynoodlebar.events.orders.RequestOrderDetailsEvent;
 import com.yummynoodlebar.web.domain.MenuItem;
 
 public class WebDataFixture {
-	
+
 	public static final String CUSTOMER_NAME = "Best Customer";
 	public static final String NAME = "Yummy Noodles";
 	public static final String CHEF_SPECIAL = "Special ";
@@ -26,37 +26,37 @@ public class WebDataFixture {
 	public static final int MINUTES_TO_PREPARE = 5;
 	public static final String STATUS_RECEIVED = "RECEIVED";
 
-  public static OrderCreatedEvent newOrder(UUID id) {
-    return new OrderCreatedEvent(id, new OrderDetails());
-  }
-  
-  public static RequestOrderDetailsEvent orderDetailsRequest(UUID id) {
-	return new RequestOrderDetailsEvent(id);
-	
-}
-  
-  public static OrderDetailsEvent orderDetailsEvent(UUID id) {
-	return new OrderDetailsEvent(id, standardOrderDetails(id));
-	
-}
-  
-  public static OrderDetails standardOrderDetails () {
-	  return standardOrderDetails(UUID.randomUUID());
-}
-  
-  public static OrderDetails standardOrderDetails (UUID id) {
-	  OrderDetails orderDetails = new OrderDetails(id);
-	  orderDetails.setName(CUSTOMER_NAME);
-	  return orderDetails;
-}
-  
-  public static OrderStatusEvent orderStatusEvent(UUID id) {
-	  return new OrderStatusEvent(id, standardOrderStatusDetails(id));
-  }
-  
-  public static OrderStatusDetails standardOrderStatusDetails(UUID orderId) {
-	  return new OrderStatusDetails(orderId, UUID.randomUUID(), new Date(), STATUS_RECEIVED);
-  }
+	public static OrderCreatedEvent newOrder(UUID id) {
+		return new OrderCreatedEvent(id, new OrderDetails());
+	}
+
+	public static RequestOrderDetailsEvent orderDetailsRequest(UUID id) {
+		return new RequestOrderDetailsEvent(id);
+
+	}
+
+	public static OrderDetailsEvent orderDetailsEvent(UUID id) {
+		return new OrderDetailsEvent(id, standardOrderDetails(id));
+
+	}
+
+	public static OrderDetails standardOrderDetails() {
+		return standardOrderDetails(UUID.randomUUID());
+	}
+
+	public static OrderDetails standardOrderDetails(UUID id) {
+		OrderDetails orderDetails = new OrderDetails(id);
+		orderDetails.setName(CUSTOMER_NAME);
+		return orderDetails;
+	}
+
+	public static OrderStatusEvent orderStatusEvent(UUID id) {
+		return new OrderStatusEvent(id, standardOrderStatusDetails(id));
+	}
+
+	public static OrderStatusDetails standardOrderStatusDetails(UUID orderId) {
+		return new OrderStatusDetails(orderId, UUID.randomUUID(), new Date(), STATUS_RECEIVED);
+	}
 
 	public static AllMenuItemsEvent allMenuItems() {
 		List<MenuItemDetails> menuItemDetails = new ArrayList<MenuItemDetails>();
@@ -69,12 +69,12 @@ public class WebDataFixture {
 	public static MenuItemDetails standardMenuItemDetails(String name) {
 		return new MenuItemDetails(UUID.randomUUID().toString(), name, COST, MINUTES_TO_PREPARE);
 	}
-	
+
 	public static MenuItemDetails standardMenuItemDetails() {
 		return standardMenuItemDetails(NAME);
 	}
-	
-	public static MenuItem standardWebMenuItem () {
+
+	public static MenuItem standardWebMenuItem() {
 		return MenuItem.fromMenuDetails(standardMenuItemDetails());
 	}
 

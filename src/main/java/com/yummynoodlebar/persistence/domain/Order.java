@@ -8,101 +8,101 @@ import java.util.*;
 
 public class Order {
 
-  private final Date dateTimeOfSubmission;
-  private Map<String, Integer> orderItems;
-  private final UUID key;
+	private final Date dateTimeOfSubmission;
+	private Map<String, Integer> orderItems;
+	private final UUID key;
 
-  private OrderStatus status;
-  private List<OrderStatus> statusHistory;
-  
-  private String name;
-  private String address1;
-  private String postcode;
+	private OrderStatus status;
+	private List<OrderStatus> statusHistory;
 
-  public Order(final Date dateTimeOfSubmission) {
-    this.key = UUID.randomUUID();
-    this.dateTimeOfSubmission = dateTimeOfSubmission;
-    statusHistory = new ArrayList<OrderStatus>();
-  }
+	private String name;
+	private String address1;
+	private String postcode;
 
-  public void addStatus(OrderStatus newStatus) {
-    statusHistory.add(newStatus);
-    status = newStatus;
-  }
+	public Order(final Date dateTimeOfSubmission) {
+		this.key = UUID.randomUUID();
+		this.dateTimeOfSubmission = dateTimeOfSubmission;
+		statusHistory = new ArrayList<OrderStatus>();
+	}
 
-  public OrderStatus getStatus() {
-    return status;
-  }
+	public void addStatus(OrderStatus newStatus) {
+		statusHistory.add(newStatus);
+		status = newStatus;
+	}
 
-  public Date getDateTimeOfSubmission() {
-    return dateTimeOfSubmission;
-  }
+	public OrderStatus getStatus() {
+		return status;
+	}
 
-  public UUID getKey() {
-    return key;
-  }
+	public Date getDateTimeOfSubmission() {
+		return dateTimeOfSubmission;
+	}
 
-  public void setOrderItems(Map<String, Integer> orderItems) {
-    if (orderItems == null) {
-      this.orderItems = Collections.emptyMap();
-    } else {
-      this.orderItems = Collections.unmodifiableMap(orderItems);
-    }
-  }
+	public UUID getKey() {
+		return key;
+	}
 
-  public Map<String, Integer> getOrderItems() {
-    return orderItems;
-  }
+	public void setOrderItems(Map<String, Integer> orderItems) {
+		if (orderItems == null) {
+			this.orderItems = Collections.emptyMap();
+		} else {
+			this.orderItems = Collections.unmodifiableMap(orderItems);
+		}
+	}
 
-  public OrderDetails toOrderDetails() {
-    OrderDetails details = new OrderDetails();
+	public Map<String, Integer> getOrderItems() {
+		return orderItems;
+	}
 
-    BeanUtils.copyProperties(this, details);
+	public OrderDetails toOrderDetails() {
+		OrderDetails details = new OrderDetails();
 
-    return details;
-  }
+		BeanUtils.copyProperties(this, details);
 
-  public static Order fromOrderDetails(OrderDetails orderDetails) {
-    Order order = new Order(orderDetails.getDateTimeOfSubmission());
+		return details;
+	}
 
-    BeanUtils.copyProperties(orderDetails, order);
+	public static Order fromOrderDetails(OrderDetails orderDetails) {
+		Order order = new Order(orderDetails.getDateTimeOfSubmission());
 
-    return order;
-  }
+		BeanUtils.copyProperties(orderDetails, order);
 
-public List<OrderStatus> getStatusHistory() {
-	return statusHistory;
-}
+		return order;
+	}
 
-public void setStatusHistory(List<OrderStatus> statusHistory) {
-	this.statusHistory = statusHistory;
-}
+	public List<OrderStatus> getStatusHistory() {
+		return statusHistory;
+	}
 
-public String getName() {
-	return name;
-}
+	public void setStatusHistory(List<OrderStatus> statusHistory) {
+		this.statusHistory = statusHistory;
+	}
 
-public void setName(String name) {
-	this.name = name;
-}
+	public String getName() {
+		return name;
+	}
 
-public String getAddress1() {
-	return address1;
-}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-public void setAddress1(String address1) {
-	this.address1 = address1;
-}
+	public String getAddress1() {
+		return address1;
+	}
 
-public String getPostcode() {
-	return postcode;
-}
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
 
-public void setPostcode(String postcode) {
-	this.postcode = postcode;
-}
+	public String getPostcode() {
+		return postcode;
+	}
 
-public void setStatus(OrderStatus status) {
-	this.status = status;
-}
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
 }

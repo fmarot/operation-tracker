@@ -12,21 +12,20 @@ import com.yummynoodlebar.core.services.MenuService;
 import com.yummynoodlebar.events.menu.AllMenuItemsEvent;
 import com.yummynoodlebar.events.menu.RequestAllMenuItemsEvent;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {PersistenceConfig.class, CoreConfig.class})
+@ContextConfiguration(classes = { PersistenceConfig.class, CoreConfig.class })
 public class CoreDomainIntegrationTest {
-	
+
 	@Autowired
 	MenuService menuService;
-			
+
 	@Test
 	public void thatAllMenuItemsReturned() {
-		
-	AllMenuItemsEvent allMenuItems = menuService.requestAllMenuItems(new RequestAllMenuItemsEvent());
-	
-	assertEquals(3, allMenuItems.getMenuItemDetails().size());
-			
-	}	
+
+		AllMenuItemsEvent allMenuItems = menuService.requestAllMenuItems(new RequestAllMenuItemsEvent());
+
+		assertEquals(3, allMenuItems.getMenuItemDetails().size());
+
+	}
 
 }

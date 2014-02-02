@@ -54,15 +54,14 @@ public class CheckoutIntegrationTest {
 	@Mock
 	OrderService orderService;
 
-  //{!begin init}
+	// {!begin init}
 	@Before
 	public void setup() {
-		
-		
+
 		MockitoAnnotations.initMocks(this);
-		
+
 		controller.setBasket(new Basket());
-		
+
 		mockMvc = standaloneSetup(controller).setViewResolvers(viewResolver())
 				.build();
 	}
@@ -73,7 +72,8 @@ public class CheckoutIntegrationTest {
 		viewResolver.setSuffix(".html");
 		return viewResolver;
 	}
-  //{!end init}
+
+	// {!end init}
 
 	@Test
 	public void thatBasketIsPopulated() throws Exception {
@@ -95,10 +95,10 @@ public class CheckoutIntegrationTest {
 
 		mockMvc.perform(
 				post("/checkout").param("name", CUSTOMER_NAME)
-								 .param("address1", ADDRESS1)
-								 .param("postcode", POST_CODE))
-						         .andExpect(status().isMovedTemporarily())
-						         .andExpect(redirectedUrl("/order/" + id.toString()));
+						.param("address1", ADDRESS1)
+						.param("postcode", POST_CODE))
+				.andExpect(status().isMovedTemporarily())
+				.andExpect(redirectedUrl("/order/" + id.toString()));
 	}
 
 	@Test
@@ -106,30 +106,30 @@ public class CheckoutIntegrationTest {
 		UUID id = UUID.randomUUID();
 
 		when(orderService.createOrder(any(CreateOrderEvent.class))).thenReturn(newOrder(id));
-		
+
 		mockMvc.perform(post("/checkout")
 				.param("name", CUSTOMER_NAME)
 				.param("address1", ADDRESS1)
 				.param("postcode", POST_CODE))
 				.andDo(print());
 
-		//@formatter:off
-	    verify(orderService).createOrder(Matchers.<CreateOrderEvent>argThat(
-	        allOf(
-	            org.hamcrest.Matchers.<CreateOrderEvent>hasProperty("details",
-	        											hasProperty("dateTimeOfSubmission", notNullValue())),
+		// @formatter:off
+		verify(orderService).createOrder(Matchers.<CreateOrderEvent> argThat(
+				allOf(
+						org.hamcrest.Matchers.<CreateOrderEvent> hasProperty("details",
+								hasProperty("dateTimeOfSubmission", notNullValue())),
 
-	            org.hamcrest.Matchers.<CreateOrderEvent>hasProperty("details",
-	            										hasProperty("name", equalTo(CUSTOMER_NAME))),
+						org.hamcrest.Matchers.<CreateOrderEvent> hasProperty("details",
+								hasProperty("name", equalTo(CUSTOMER_NAME))),
 
-	            org.hamcrest.Matchers.<CreateOrderEvent>hasProperty("details",
-	            										hasProperty("address1", equalTo(ADDRESS1))),
-	            org.hamcrest.Matchers.<CreateOrderEvent>hasProperty("details",
-	            										hasProperty("postcode", equalTo(POST_CODE)))
-	        )));
-	//@formatter:on
+						org.hamcrest.Matchers.<CreateOrderEvent> hasProperty("details",
+								hasProperty("address1", equalTo(ADDRESS1))),
+						org.hamcrest.Matchers.<CreateOrderEvent> hasProperty("details",
+								hasProperty("postcode", equalTo(POST_CODE)))
+				)));
+		// @formatter:on
 	}
-	
+
 	@Test
 	public void thatBasketIsEmptyOnSuccess() throws Exception {
 		UUID id = UUID.randomUUID();
@@ -137,11 +137,11 @@ public class CheckoutIntegrationTest {
 		when(orderService.createOrder(any(CreateOrderEvent.class))).thenReturn(newOrder(id));
 
 		controller.getBasket().add(standardWebMenuItem());
-		
+
 		mockMvc.perform(
 				post("/checkout").param("name", CUSTOMER_NAME)
-								 .param("address1", ADDRESS1)
-								 .param("postcode", POST_CODE));
+						.param("address1", ADDRESS1)
+						.param("postcode", POST_CODE));
 		assertThat(controller.getBasket().getItems(), is(empty()));
 	}
 
